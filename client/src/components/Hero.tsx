@@ -22,8 +22,9 @@ export default function Hero() {
         </motion.div>
 
         <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2 }} className="font-heading text-5xl md:text-6xl lg:text-7xl text-white font-medium leading-[1.1] mb-8">
-          Alexandra<br />
-          <span className="italic text-gold-300">Vásquez</span>
+          Abogada Especialista<br />
+          <span className="italic text-gold-300">en Derecho de Familia</span><br />
+          <span className="text-white/60 text-3xl md:text-4xl lg:text-5xl">Manizales, Colombia</span>
         </motion.h1>
 
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.5 }} className="text-white/40 text-lg md:text-xl font-light max-w-xl mx-auto mb-12 leading-relaxed">

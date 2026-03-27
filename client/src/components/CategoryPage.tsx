@@ -13,7 +13,23 @@ export default function CategoryPage() {
 
   useEffect(() => {
     if (params?.catSlug) {
-      fetch(`/api/posts/categoria/${params.catSlug}`).then((r) => r.json()).then((data) => { setPosts(data); setLoading(false); }).catch(() => setLoading(false));
+      fetch(`/api/posts/categoria/${params.catSlug}`).then((r) => r.json()).then((data) => {
+        setPosts(data);
+        setLoading(false);
+        if (data[0]) {
+          const breadcrumb = {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://alexandravasquez.com/" },
+              { "@type": "ListItem", "position": 2, "name": data[0].category, "item": `https://alexandravasquez.com/noticias/${params.catSlug}` }
+            ]
+          };
+          let el = document.getElementById("breadcrumb-schema");
+          if (!el) { el = document.createElement("script"); el.id = "breadcrumb-schema"; (el as HTMLScriptElement).type = "application/ld+json"; document.head.appendChild(el); }
+          el.textContent = JSON.stringify(breadcrumb);
+        }
+      }).catch(() => setLoading(false));
     }
   }, [params?.catSlug]);
 
@@ -25,9 +41,11 @@ export default function CategoryPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-primary-800/15 rounded-full blur-[120px]" />
         <div className="container mx-auto px-6 lg:px-12 relative z-10 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <a href="/" onClick={(e) => { e.preventDefault(); setLocation("/"); }} className="inline-flex items-center gap-2 text-white/30 text-xs uppercase tracking-[0.2em] hover:text-gold-400 transition-colors mb-8">
-              <ArrowLeft size={14} /> Inicio
-            </a>
+            <nav className="flex items-center gap-2 text-white/30 text-xs mb-8" aria-label="Breadcrumb">
+              <a href="/" onClick={(e) => { e.preventDefault(); setLocation("/"); }} className="hover:text-gold-400 transition-colors">Inicio</a>
+              <span>/</span>
+              <span className="text-white/50">{catName}</span>
+            </nav>
             <div className="inline-flex items-center gap-3 mb-6">
               <span className="w-12 h-px bg-gold-400/50" />
               <span className="text-gold-400/80 text-[11px] uppercase tracking-[0.35em]">Categoría</span>
