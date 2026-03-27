@@ -34,7 +34,7 @@ export default function Contact() {
                 <div key={item.label} className="flex items-start gap-4">
                   <item.icon className="text-gold-400/60 mt-0.5 shrink-0" size={18} />
                   <div>
-                    <h4 className="text-white/40 text-[11px] uppercase tracking-[0.2em] mb-1">{item.label}</h4>
+                    <h4 className="text-white/60 text-[11px] uppercase tracking-[0.2em] mb-1">{item.label}</h4>
                     <p className="text-white/70 text-[15px]">{item.value}</p>
                   </div>
                 </div>
