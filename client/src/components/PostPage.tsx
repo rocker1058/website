@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Calendar } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { useRoute, useLocation } from "wouter";
+import { marked } from "marked";
 
 interface Post { id: number; title: string; slug: string; excerpt: string; content: string; category: string; category_slug: string; date: string; meta_title: string; }
 
@@ -73,7 +74,7 @@ export default function PostPage() {
       <section className="py-16 lg:py-24 bg-white">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="container mx-auto px-6 lg:px-12 max-w-3xl">
           <p className="text-primary-800 text-lg font-medium leading-relaxed mb-8 border-l-2 border-gold-400 pl-6">{post.excerpt}</p>
-          <div className="text-gray-600 text-[16px] leading-[1.9] whitespace-pre-line">{post.content}</div>
+          <div className="prose prose-lg max-w-none text-gray-600" dangerouslySetInnerHTML={{ __html: marked(post.content) as string }} />
           <div className="mt-16 pt-8 border-t border-gray-100 text-center">
             <p className="text-gray-400 text-sm mb-4">¿Necesita asesoría sobre este tema?</p>
             <a href="/#contacto" onClick={(e) => { e.preventDefault(); setLocation("/"); setTimeout(() => document.querySelector("#contacto")?.scrollIntoView({ behavior: "smooth" }), 400); }} className="inline-block px-8 py-3 bg-primary-950 text-gold-400 text-[12px] uppercase tracking-[0.2em] hover:bg-primary-900 transition-colors">

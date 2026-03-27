@@ -10,5 +10,5 @@ export default {
       fontFamily: { heading: ["'Cormorant Garamond'", "serif"], body: ["'Source Sans 3'", "sans-serif"] },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 };
