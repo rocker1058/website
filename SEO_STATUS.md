@@ -35,16 +35,9 @@
 
 ### Alta prioridad (mayor impacto en posicionamiento)
 
-- [ ] **Breadcrumbs con Schema.org** — `Inicio > Noticias > Divorcios > Título`
-  - Google los muestra en resultados de búsqueda
-  - Agregar JSON-LD BreadcrumbList en cada post y categoría
-
-- [ ] **Internal linking** — Posts relacionados al final de cada artículo
-  - Mostrar 2-3 posts de la misma categoría
-  - Google valora mucho los enlaces internos
-
-- [ ] **Mejorar H1 del home** — Actualmente dice "Alexandra Vásquez"
-  - Debería incluir keywords: "Abogada Especialista en Derecho de Familia en Manizales"
+- [x] **Breadcrumbs con Schema.org** — Implementado en posts y categorías
+- [x] **Internal linking** — Posts relacionados al final de cada artículo
+- [x] **Mejorar H1 del home** — "Abogada Especialista en Derecho de Familia · Manizales"
 
 - [ ] **Contenido largo en posts** — Los de ejemplo tienen ~50 palabras
   - Google prefiere artículos de +1000 palabras
@@ -52,7 +45,10 @@
 
 ### Media prioridad
 
-- [ ] **Favicon** — No tiene, se ve genérico en el navegador
+- [x] **Favicon** — SVG con iniciales AV
+- [x] **Google Fonts no-blocking** — Carga sin bloquear render
+- [x] **Lazy loading** — JS dividido en chunks por ruta
+- [x] **Google Search Console** — Verificado, sitemap enviado
 - [ ] **Open Graph image** — No hay imagen para preview en redes sociales
   - Crear imagen default con logo/nombre para compartir en WhatsApp/Facebook
 - [ ] **Alt text en imágenes** — Cuando se agreguen imágenes, necesitan alt descriptivo
