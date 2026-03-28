@@ -161,10 +161,18 @@ app.get("/servicios/abogado-derecho-familia-manizales", (_req, res) => {
   html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
   html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="${desc}" />`);
   const meta = `
+    <meta name="robots" content="index, follow" />
+    <meta name="geo.region" content="CO-CAL" />
+    <meta name="geo.placename" content="Manizales" />
+    <meta name="geo.position" content="5.0703;-75.5138" />
+    <meta name="ICBM" content="5.0703, -75.5138" />
     <meta property="og:title" content="${title}" />
     <meta property="og:description" content="${desc}" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="${url}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="${title}" />
+    <meta name="twitter:description" content="${desc}" />
     <meta name="keywords" content="abogado derecho de familia manizales, abogada familia manizales, divorcio manizales, custodia hijos manizales, cuota alimentaria colombia" />
     <link rel="canonical" href="${url}" />
     <script type="application/ld+json">
