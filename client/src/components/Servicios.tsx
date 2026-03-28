@@ -61,7 +61,7 @@ export default function Servicios() {
               En Manizales, Alexandra Vásquez lleva más de diez años acompañando a familias en estos procesos. Su enfoque es claro: resolver cada caso de la forma más rápida, económica y favorable posible para sus clientes, siempre dentro del marco legal colombiano.
             </p>
             <p>
-              Si está considerando un divorcio, necesita fijar o revisar una <a href="/noticias/custodia/como-calcular-la-cuota-alimentaria-de-los-hijos-en-colombia" onClick={(e) => { e.preventDefault(); nav("/noticias/custodia/como-calcular-la-cuota-alimentaria-de-los-hijos-en-colombia"); }} className="text-primary-700 underline">cuota alimentaria</a>, o enfrenta un proceso de custodia, el primer paso es una consulta con un abogado especialista que evalúe su caso y le indique el camino más adecuado.
+              Si está considerando un divorcio, necesita fijar o revisar una <a href="/noticias/derecho-de-familia/como-calcular-la-cuota-alimentaria-de-los-hijos-en-colombia" onClick={(e) => { e.preventDefault(); nav("/noticias/derecho-de-familia/como-calcular-la-cuota-alimentaria-de-los-hijos-en-colombia"); }} className="text-primary-700 underline">cuota alimentaria</a>, o enfrenta un proceso de custodia, el primer paso es una consulta con un abogado especialista que evalúe su caso y le indique el camino más adecuado.
             </p>
           </motion.div>
         </div>
@@ -95,7 +95,7 @@ export default function Servicios() {
               <p>La cuota alimentaria es la obligación legal que tiene uno de los padres de contribuir económicamente al sostenimiento de sus hijos menores de edad. Esta obligación cubre alimentación, vivienda, educación, salud y recreación.</p>
               <p>En Colombia no existe una fórmula fija para calcular la cuota alimentaria. El juez evalúa los ingresos del obligado y las necesidades reales del menor. Como referencia, los jueces suelen fijar entre el 20% y el 30% del salario para un hijo.</p>
               <p>La cuota alimentaria puede fijarse por acuerdo entre las partes (ante comisario de familia o notario) o por proceso judicial. También puede revisarse cuando cambien las circunstancias económicas del obligado o las necesidades del menor.</p>
-              <a href="/noticias/custodia/como-calcular-la-cuota-alimentaria-de-los-hijos-en-colombia" onClick={(e) => { e.preventDefault(); nav("/noticias/custodia/como-calcular-la-cuota-alimentaria-de-los-hijos-en-colombia"); }} className="inline-flex items-center gap-1 text-primary-700 text-sm hover:gap-2 transition-all">
+              <a href="/noticias/derecho-de-familia/como-calcular-la-cuota-alimentaria-de-los-hijos-en-colombia" onClick={(e) => { e.preventDefault(); nav("/noticias/derecho-de-familia/como-calcular-la-cuota-alimentaria-de-los-hijos-en-colombia"); }} className="inline-flex items-center gap-1 text-primary-700 text-sm hover:gap-2 transition-all">
                 Cómo se calcula la cuota alimentaria en Colombia <ArrowRight size={14} />
               </a>
             </div>
@@ -113,8 +113,8 @@ export default function Servicios() {
               <p>La custodia de los hijos es uno de los temas más delicados en los procesos de separación o divorcio. En Colombia, la custodia puede ser unilateral (un solo padre) o compartida (ambos padres comparten el cuidado del menor).</p>
               <p>Cuando los padres no llegan a un acuerdo sobre la custodia, el juez de familia decide basándose en el bienestar del menor. Se evalúan factores como la estabilidad económica y emocional de cada padre, el vínculo afectivo con el hijo y las condiciones de vida de cada hogar.</p>
               <p>El régimen de visitas también se define en este proceso, estableciendo los días y horarios en que el padre o madre sin custodia puede compartir con sus hijos.</p>
-              <a href="/noticias/divorcios/divorcio-express-en-colombia-requisitos-y-pasos-en-2026" onClick={(e) => { e.preventDefault(); nav("/noticias/divorcios/divorcio-express-en-colombia-requisitos-y-pasos-en-2026"); }} className="inline-flex items-center gap-1 text-primary-700 text-sm hover:gap-2 transition-all">
-                Requisitos para el divorcio express en Colombia <ArrowRight size={14} />
+              <a href="/noticias/custodia/como-funciona-la-custodia-compartida-en-colombia" onClick={(e) => { e.preventDefault(); nav("/noticias/custodia/como-funciona-la-custodia-compartida-en-colombia"); }} className="inline-flex items-center gap-1 text-primary-700 text-sm hover:gap-2 transition-all">
+                Cómo funciona la custodia compartida en Colombia <ArrowRight size={14} />
               </a>
             </div>
           </motion.div>
