@@ -76,7 +76,8 @@ export default function PostPage() {
           <p className="text-primary-800 text-lg font-medium leading-relaxed mb-8 border-l-2 border-gold-400 pl-6">{post.excerpt}</p>
           <div className="prose prose-lg max-w-none text-gray-600" dangerouslySetInnerHTML={{ __html: marked(post.content) as string }} />
           <div className="mt-16 pt-8 border-t border-gray-100 text-center">
-            <p className="text-gray-400 text-sm mb-4">¿Necesita asesoría sobre este tema?</p>
+            <p className="text-gray-400 text-sm mb-2">¿Necesita asesoría sobre este tema?</p>
+            <p className="text-gray-500 text-sm mb-6">Consulte con nuestra <a href="/servicios/abogado-derecho-familia-manizales" onClick={(e) => { e.preventDefault(); setLocation("/servicios/abogado-derecho-familia-manizales"); }} className="text-primary-700 underline hover:text-primary-900">abogada de familia en Manizales</a> para orientación personalizada.</p>
             <a href="/#contacto" onClick={(e) => { e.preventDefault(); setLocation("/"); setTimeout(() => document.querySelector("#contacto")?.scrollIntoView({ behavior: "smooth" }), 400); }} className="inline-block px-8 py-3 bg-primary-950 text-gold-400 text-[12px] uppercase tracking-[0.2em] hover:bg-primary-900 transition-colors">
               Contáctenos
             </a>

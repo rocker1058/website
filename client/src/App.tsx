@@ -11,6 +11,7 @@ const About = lazy(() => import("./components/About"));
 const Admin = lazy(() => import("./components/Admin"));
 const PostPage = lazy(() => import("./components/PostPage"));
 const CategoryPage = lazy(() => import("./components/CategoryPage"));
+const Servicios = lazy(() => import("./components/Servicios"));
 
 function ScrollToTop() {
   const [location] = useLocation();
@@ -42,6 +43,7 @@ export default function App() {
           <Switch>
             <Route path="/" component={Home} />
             <Route path="/sobre-mi" component={About} />
+            <Route path="/servicios/abogado-derecho-familia-manizales" component={Servicios} />
             <Route path="/noticias/:catSlug/:slug" component={PostPage} />
             <Route path="/noticias/:catSlug" component={CategoryPage} />
           </Switch>

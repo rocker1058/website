@@ -152,7 +152,29 @@ app.get("/sobre-mi", (_req, res) => {
   res.send(html);
 });
 
-// SSR: Category page
+// SSR: Servicios
+app.get("/servicios/abogado-derecho-familia-manizales", (_req, res) => {
+  let html = getHtml();
+  const title = "Abogado de Familia en Manizales | Divorcios, Custodia y Alimentos";
+  const desc = "Abogada especialista en derecho de familia en Manizales. Divorcios, custodia de hijos, cuota alimentaria y separación de bienes. Consulta ahora.";
+  const url = "https://alexandravasquez.com/servicios/abogado-derecho-familia-manizales";
+  html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
+  html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="${desc}" />`);
+  const meta = `
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${desc}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="${url}" />
+    <meta name="keywords" content="abogado derecho de familia manizales, abogada familia manizales, divorcio manizales, custodia hijos manizales, cuota alimentaria colombia" />
+    <link rel="canonical" href="${url}" />
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"LegalService","name":"Alexandra Vásquez - Abogada de Familia en Manizales","description":"${desc}","url":"${url}","telephone":"","areaServed":{"@type":"City","name":"Manizales"},"serviceType":"Derecho de Familia","address":{"@type":"PostalAddress","addressLocality":"Manizales","addressRegion":"Caldas","addressCountry":"CO"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"Servicios Legales","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Divorcios en Manizales"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Custodia de hijos"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Cuota alimentaria"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Separación de bienes"}}]}}
+    </script>`;
+  html = html.replace("</head>", `${meta}\n</head>`);
+  res.send(html);
+});
+
+
 app.get("/noticias/:catSlug", (req, res) => {
   const cat = db.prepare("SELECT DISTINCT category, category_slug FROM posts WHERE category_slug = ? AND published = 1").get(req.params.catSlug) as any;
   let html = getHtml();

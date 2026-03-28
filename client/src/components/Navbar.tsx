@@ -7,7 +7,6 @@ const scrollLinks = [
   { label: "Inicio", href: "#inicio" },
   { label: "Áreas", href: "#areas" },
   { label: "Blog", href: "#blog" },
-  { label: "Contacto", href: "#contacto" },
 ];
 
 export default function Navbar() {
@@ -57,6 +56,9 @@ export default function Navbar() {
           <a href="/sobre-mi" onClick={(e) => { e.preventDefault(); handleNav("/sobre-mi"); }} className="text-white/60 text-[13px] uppercase tracking-[0.2em] hover:text-gold-400 transition-colors duration-300">
             Sobre Mí
           </a>
+          <a href="/servicios/abogado-derecho-familia-manizales" onClick={(e) => { e.preventDefault(); handleNav("/servicios/abogado-derecho-familia-manizales"); }} className="text-white/60 text-[13px] uppercase tracking-[0.2em] hover:text-gold-400 transition-colors duration-300">
+            Servicios
+          </a>
           <a href="#contacto" onClick={(e) => { e.preventDefault(); handleNav("#contacto"); }} className="ml-4 px-6 py-2.5 border border-gold-400/50 text-gold-400 text-[12px] uppercase tracking-[0.2em] hover:bg-gold-400 hover:text-primary-950 transition-all duration-300">
             Consulta
           </a>
@@ -76,6 +78,9 @@ export default function Navbar() {
               ))}
               <a href="/sobre-mi" onClick={(e) => { e.preventDefault(); handleNav("/sobre-mi"); }} className="py-3 text-white/60 text-sm uppercase tracking-[0.15em] border-b border-white/5 hover:text-gold-400 transition-colors">
                 Sobre Mí
+              </a>
+              <a href="/servicios/abogado-derecho-familia-manizales" onClick={(e) => { e.preventDefault(); handleNav("/servicios/abogado-derecho-familia-manizales"); }} className="py-3 text-white/60 text-sm uppercase tracking-[0.15em] border-b border-white/5 hover:text-gold-400 transition-colors">
+                Servicios
               </a>
               <a href="#contacto" onClick={(e) => { e.preventDefault(); handleNav("#contacto"); }} className="mt-4 py-3 text-center border border-gold-400/50 text-gold-400 text-sm uppercase tracking-[0.15em] hover:bg-gold-400 hover:text-primary-950 transition-all">
                 Agendar Consulta
