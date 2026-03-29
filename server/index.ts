@@ -133,10 +133,13 @@ app.use(express.static(path.join(__dirname, "public"), { index: false }));
 
 const htmlPath = path.join(__dirname, "public", "index.html");
 const getHtml = () => fs.readFileSync(htmlPath, "utf-8");
+const injectH1 = (html: string, h1: string) =>
+  html.replace('<div id="root"', `<h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">${h1}</h1><div id="root"`);
 
 // SSR: Home
 app.get("/", (_req, res) => {
   let html = getHtml();
+  html = injectH1(html, "Abogada de Derecho de Familia en Manizales");
   const meta = `
     <meta property="og:title" content="Alexandra Vásquez | Abogada Especialista en Derecho de Familia" />
     <meta property="og:description" content="Abogada especialista en derecho de familia en Manizales, Colombia. Divorcios, custodia, alimentos, sucesiones." />
@@ -157,6 +160,7 @@ app.get("/", (_req, res) => {
 // SSR: Sobre Mi
 app.get("/sobre-mi", (_req, res) => {
   let html = getHtml();
+  html = injectH1(html, "Alexandra Vásquez - Abogada en Manizales");
   html = html.replace(/<title>.*?<\/title>/, `<title>Sobre Mí | Alexandra Vásquez - Abogada en Manizales</title>`);
   html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="Conozca a Alexandra Vásquez, abogada con más de 10 años de experiencia en derecho de familia en Manizales, Colombia." />`);
   const meta = `<link rel="canonical" href="https://alexandravasquez.com/sobre-mi" />`;
@@ -198,6 +202,7 @@ app.get("/servicios/abogado-derecho-familia-manizales", (_req, res) => {
 // SSR: Noticias index
 app.get("/noticias", (_req, res) => {
   let html = getHtml();
+  html = injectH1(html, "Noticias de Derecho de Familia en Colombia");
   const title = "Derecho de Familia Colombia | Alexandra Vásquez";
   const desc = "Artículos sobre derecho de familia en Colombia: divorcios, custodia, alimentos y sucesiones. Blog jurídico de Alexandra Vásquez, Manizales.";
   html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
@@ -216,6 +221,7 @@ app.get("/noticias/:catSlug", (req, res) => {
   const cat = db.prepare("SELECT DISTINCT category, category_slug FROM posts WHERE category_slug = ? AND published = 1").get(req.params.catSlug) as any;
   let html = getHtml();
   const catName = cat?.category || req.params.catSlug;
+  html = injectH1(html, `Artículos sobre ${catName} en Colombia`);
   html = html.replace(/<title>.*?<\/title>/, `<title>${catName} | Blog Jurídico - Alexandra Vásquez</title>`);
   html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="Artículos sobre ${catName.toLowerCase()} por Alexandra Vásquez, abogada especialista en derecho de familia en Colombia." />`);
   const meta = `<link rel="canonical" href="https://alexandravasquez.com/noticias/${req.params.catSlug}" />`;
@@ -228,6 +234,7 @@ app.get("/noticias/:catSlug/:slug", (req, res) => {
   let html = getHtml();
   const post = db.prepare("SELECT * FROM posts WHERE category_slug = ? AND slug = ? AND published = 1").get(req.params.catSlug, req.params.slug) as any;
   if (post) {
+    html = injectH1(html, post.title);
     const title = post.meta_title || post.title;
     const desc = post.meta_description || post.excerpt;
     const url = `https://alexandravasquez.com/noticias/${post.category_slug}/${post.slug}`;
