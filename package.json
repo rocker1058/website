@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"vite\" \"tsx server/index.ts\"",
-    "build": "vite build && esbuild server/index.ts --bundle --platform=node --format=cjs --outfile=dist/index.cjs --external:better-sqlite3 --external:compression",
+    "build": "vite build && esbuild server/index.ts --bundle --platform=node --format=cjs --outfile=dist/index.cjs --external:better-sqlite3 --external:compression --define:import.meta.url=__importMetaUrl --banner:js=\"const __importMetaUrl=require('url').pathToFileURL(__filename).href;\"",
     "start": "NODE_ENV=production node dist/index.cjs"
   },
   "dependencies": {
