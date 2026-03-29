@@ -130,7 +130,7 @@ app.get("/", (_req, res) => {
     <meta property="og:description" content="Abogada especialista en derecho de familia en Manizales, Colombia. Divorcios, custodia, alimentos, sucesiones." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://alexandravasquez.com/" />
-    <meta name="keywords" content="abogada familia manizales, derecho de familia colombia, divorcio manizales, custodia hijos colombia" />
+    <meta name="keywords" content="abogada familia manizales, abogado familia manizales, derecho de familia colombia, abogado derecho de familia manizales, divorcio manizales, custodia hijos colombia, abogado divorcio manizales" />
     <meta name="author" content="Alexandra Vásquez" />
     <meta name="geo.region" content="CO-CAL" />
     <meta name="geo.placename" content="Manizales" />

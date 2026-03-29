@@ -32,7 +32,7 @@ export default function Servicios() {
               <span className="w-12 h-px bg-gold-400/50" />
             </div>
             <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl text-white font-medium leading-tight mb-6">
-              Abogada de Derecho de Familia<br />
+              Abogado de Derecho de Familia<br />
               <span className="italic text-gold-300">en Manizales</span>
             </h1>
             <p className="text-white/60 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
