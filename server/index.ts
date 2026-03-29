@@ -155,7 +155,7 @@ app.get("/sobre-mi", (_req, res) => {
 // SSR: Servicios
 app.get("/servicios/abogado-derecho-familia-manizales", (_req, res) => {
   let html = getHtml();
-  const title = "Abogado de Familia en Manizales | Divorcios, Custodia y Alimentos";
+  const title = "Abogado Familia Manizales | Divorcios y Custodia";
   const desc = "Abogada especialista en derecho de familia en Manizales. Divorcios, custodia de hijos, cuota alimentaria y separación de bienes. Consulta ahora.";
   const url = "https://alexandravasquez.com/servicios/abogado-derecho-familia-manizales";
   html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
@@ -186,8 +186,8 @@ app.get("/servicios/abogado-derecho-familia-manizales", (_req, res) => {
 // SSR: Noticias index
 app.get("/noticias", (_req, res) => {
   let html = getHtml();
-  const title = "Noticias de Derecho de Familia en Colombia | Alexandra Vásquez";
-  const desc = "Artículos y noticias sobre derecho de familia en Colombia: divorcios, custodia, alimentos y sucesiones. Blog jurídico de Alexandra Vásquez, abogada en Manizales.";
+  const title = "Derecho de Familia Colombia | Alexandra Vásquez";
+  const desc = "Artículos sobre derecho de familia en Colombia: divorcios, custodia, alimentos y sucesiones. Blog jurídico de Alexandra Vásquez, Manizales.";
   html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
   html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="${desc}" />`);
   const meta = `
