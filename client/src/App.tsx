@@ -41,6 +41,7 @@ export default function App() {
         <Route>
           <ScrollToTop />
           <Navbar />
+          <main>
           <Switch>
             <Route path="/" component={Home} />
             <Route path="/sobre-mi" component={About} />
@@ -49,6 +50,7 @@ export default function App() {
             <Route path="/noticias/:catSlug/:slug" component={PostPage} />
             <Route path="/noticias/:catSlug" component={CategoryPage} />
           </Switch>
+          </main>
           <Footer />
         </Route>
       </Switch>
