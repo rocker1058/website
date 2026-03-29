@@ -102,6 +102,7 @@ app.get("/sitemap.xml", (_req, res) => {
   let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
   xml += `  <url><loc>${base}/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>\n`;
   xml += `  <url><loc>${base}/sobre-mi</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>\n`;
+  xml += `  <url><loc>${base}/servicios/abogado-derecho-familia-manizales</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>\n`;
   xml += `  <url><loc>${base}/noticias</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>\n`;
   for (const c of cats) {
     xml += `  <url><loc>${base}/noticias/${c.category_slug}</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>\n`;
