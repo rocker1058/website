@@ -117,7 +117,7 @@ app.get("/robots.txt", (_req, res) => {
   res.header("Content-Type", "text/plain").send(`User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: https://alexandravasquez.com/sitemap.xml`);
 });
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public"), { index: false }));
 
 const htmlPath = path.join(__dirname, "public", "index.html");
 const getHtml = () => fs.readFileSync(htmlPath, "utf-8");
