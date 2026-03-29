@@ -183,6 +183,23 @@ app.get("/servicios/abogado-derecho-familia-manizales", (_req, res) => {
 });
 
 
+// SSR: Noticias index
+app.get("/noticias", (_req, res) => {
+  let html = getHtml();
+  const title = "Noticias de Derecho de Familia en Colombia | Alexandra Vásquez";
+  const desc = "Artículos y noticias sobre derecho de familia en Colombia: divorcios, custodia, alimentos y sucesiones. Blog jurídico de Alexandra Vásquez, abogada en Manizales.";
+  html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
+  html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="${desc}" />`);
+  const meta = `
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${desc}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://alexandravasquez.com/noticias" />
+    <link rel="canonical" href="https://alexandravasquez.com/noticias" />`;
+  html = html.replace("</head>", `${meta}\n</head>`);
+  res.send(html);
+});
+
 app.get("/noticias/:catSlug", (req, res) => {
   const cat = db.prepare("SELECT DISTINCT category, category_slug FROM posts WHERE category_slug = ? AND published = 1").get(req.params.catSlug) as any;
   let html = getHtml();
