@@ -14,6 +14,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [location, setLocation] = useLocation();
 
+  useEffect(() => { setOpen(false); }, [location]);
+
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", h);
