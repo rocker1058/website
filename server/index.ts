@@ -2,11 +2,16 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import compression from "compression";
 import db from "./db.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
+app.use(compression());
 app.use(express.json());
+
+let postsCache: { data: any; ts: number } | null = null;
+const CACHE_TTL = 60_000;
 
 function toSlug(text: string) {
   return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -14,7 +19,10 @@ function toSlug(text: string) {
 
 // Public: get published posts
 app.get("/api/posts", (_req, res) => {
-  res.json(db.prepare("SELECT id, title, slug, excerpt, category, category_slug, date FROM posts WHERE published = 1 ORDER BY id DESC").all());
+  if (postsCache && Date.now() - postsCache.ts < CACHE_TTL) return res.json(postsCache.data);
+  const data = db.prepare("SELECT id, title, slug, excerpt, category, category_slug, date FROM posts WHERE published = 1 ORDER BY id DESC").all();
+  postsCache = { data, ts: Date.now() };
+  res.json(data);
 });
 
 // Public: get post by category_slug + slug
@@ -73,6 +81,7 @@ app.post("/api/admin/posts", auth, (req, res) => {
   const slug = toSlug(title);
   const catSlug = toSlug(category || "General");
   const result = db.prepare("INSERT INTO posts (title, slug, excerpt, content, category, category_slug, meta_title, meta_description) VALUES (?, ?, ?, ?, ?, ?, ?, ?)").run(title, slug, excerpt, content || "", category || "General", catSlug, meta_title || title, meta_description || excerpt);
+  postsCache = null;
   res.json({ id: result.lastInsertRowid, slug, category_slug: catSlug });
 });
 
@@ -82,11 +91,13 @@ app.put("/api/admin/posts/:id", auth, (req, res) => {
   const slug = toSlug(title);
   const catSlug = toSlug(category || "General");
   db.prepare("UPDATE posts SET title=?, slug=?, excerpt=?, content=?, category=?, category_slug=?, meta_title=?, meta_description=? WHERE id=?").run(title, slug, excerpt, content || "", category || "General", catSlug, meta_title || title, meta_description || excerpt, req.params.id);
+  postsCache = null;
   res.json({ ok: true, slug, category_slug: catSlug });
 });
 
 app.delete("/api/admin/posts/:id", auth, (req, res) => {
   db.prepare("DELETE FROM posts WHERE id = ?").run(req.params.id);
+  postsCache = null;
   res.json({ ok: true });
 });
 
