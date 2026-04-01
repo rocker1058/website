@@ -25,17 +25,17 @@ app.get("/api/posts", (_req, res) => {
   res.json(data);
 });
 
+// Public: get posts by category
+app.get("/api/posts/categoria/:catSlug", (req, res) => {
+  const posts = db.prepare("SELECT id, title, slug, excerpt, category, category_slug, date FROM posts WHERE category_slug = ? AND published = 1 ORDER BY id DESC").all(req.params.catSlug);
+  res.json(posts);
+});
+
 // Public: get post by category_slug + slug
 app.get("/api/posts/:catSlug/:slug", (req, res) => {
   const post = db.prepare("SELECT * FROM posts WHERE category_slug = ? AND slug = ? AND published = 1").get(req.params.catSlug, req.params.slug) as any;
   if (!post) return res.status(404).json({ error: "No encontrado" });
   res.json(post);
-});
-
-// Public: get posts by category
-app.get("/api/posts/categoria/:catSlug", (req, res) => {
-  const posts = db.prepare("SELECT id, title, slug, excerpt, category, category_slug, date FROM posts WHERE category_slug = ? AND published = 1 ORDER BY id DESC").all(req.params.catSlug);
-  res.json(posts);
 });
 
 // Public: get all categories
