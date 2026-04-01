@@ -46,9 +46,9 @@ export default function App() {
             <Route path="/" component={Home} />
             <Route path="/sobre-mi" component={About} />
             <Route path="/servicios/abogado-derecho-familia-manizales" component={Servicios} />
-            <Route path="/noticias" component={NoticiasPage} />
             <Route path="/noticias/:catSlug/:slug" component={PostPage} />
             <Route path="/noticias/:catSlug" component={CategoryPage} />
+            <Route path="/noticias" component={NoticiasPage} />
           </Switch>
           </main>
           <Footer />
