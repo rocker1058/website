@@ -110,13 +110,14 @@ app.get("/sitemap.xml", (_req, res) => {
   const posts = db.prepare("SELECT slug, category_slug, date FROM posts WHERE published = 1 ORDER BY id DESC").all() as any[];
   const cats = db.prepare("SELECT DISTINCT category_slug FROM posts WHERE published = 1").all() as any[];
   const base = "https://alexandravasquez.com";
+  const today = new Date().toISOString().split("T")[0];
   let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
-  xml += `  <url><loc>${base}/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>\n`;
-  xml += `  <url><loc>${base}/sobre-mi</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>\n`;
-  xml += `  <url><loc>${base}/servicios/abogado-derecho-familia-manizales</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>\n`;
-  xml += `  <url><loc>${base}/noticias</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>\n`;
+  xml += `  <url><loc>${base}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>\n`;
+  xml += `  <url><loc>${base}/sobre-mi</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>\n`;
+  xml += `  <url><loc>${base}/servicios/abogado-derecho-familia-manizales</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>\n`;
+  xml += `  <url><loc>${base}/noticias</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n`;
   for (const c of cats) {
-    xml += `  <url><loc>${base}/noticias/${c.category_slug}</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>\n`;
+    xml += `  <url><loc>${base}/noticias/${c.category_slug}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>\n`;
   }
   for (const p of posts) {
     xml += `  <url><loc>${base}/noticias/${p.category_slug}/${p.slug}</loc><lastmod>${p.date}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>\n`;
