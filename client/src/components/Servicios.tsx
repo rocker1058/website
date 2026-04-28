@@ -159,6 +159,55 @@ export default function Servicios() {
         </div>
       </section>
 
+      {/* Cuándo necesita un abogado */}
+      <section className="py-16 bg-gray-50" id="cuando-necesita-abogado">
+        <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <h2 className="font-heading text-3xl text-primary-950 font-medium mb-6">¿Cuándo necesita un abogado de familia?</h2>
+            <div className="w-12 h-px bg-gold-400 mb-8" />
+            <div className="text-gray-600 leading-relaxed space-y-4">
+              <p>Hay situaciones en las que la asesoría legal no es opcional — es indispensable:</p>
+              <ul className="space-y-3 list-none pl-0">
+                {[
+                  { t: "Cuando se va a separar o divorciar", d: "Los acuerdos mal redactados pueden perjudicarle años después. Un abogado revisa que el acuerdo sobre bienes, custodia y alimentos sea justo y legalmente sólido." },
+                  { t: "Cuando hay hijos de por medio", d: "Los procesos de custodia son emocionalmente intensos y legalmente complejos. Un abogado especialista conoce los criterios que usan los jueces de familia en Manizales." },
+                  { t: "Cuando hay bienes que dividir", d: "La liquidación de la sociedad conyugal puede ser fuente de conflictos graves. Un abogado garantiza que la división sea equitativa." },
+                  { t: "Cuando un familiar fallece sin testamento", d: "Los procesos de sucesión intestada pueden volverse largos y costosos si no se manejan correctamente desde el inicio." },
+                  { t: "Cuando el otro padre incumple acuerdos", d: "Si no paga la cuota alimentaria o impide las visitas, un abogado puede iniciar las acciones legales para hacer cumplir sus derechos." },
+                ].map((item) => (
+                  <li key={item.t} className="border-l-2 border-gold-400/40 pl-4">
+                    <strong className="text-primary-950">{item.t}:</strong> {item.d}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Cómo elegir un abogado */}
+      <section className="py-16 bg-white" id="como-elegir-abogado">
+        <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <h2 className="font-heading text-3xl text-primary-950 font-medium mb-6">Cómo elegir un buen abogado de familia en Manizales</h2>
+            <div className="w-12 h-px bg-gold-400 mb-8" />
+            <div className="grid md:grid-cols-2 gap-6">
+              {[
+                { t: "Especialización real", d: "Busque un abogado que se dedique principalmente al derecho de familia, no uno que lleve todo tipo de casos." },
+                { t: "Conocimiento local", d: "Un abogado que conoce los juzgados de familia de Manizales y los criterios de los jueces locales tiene una ventaja práctica importante." },
+                { t: "Comunicación clara", d: "Un buen abogado le explica su caso en términos que usted entiende y le dice con honestidad cuáles son sus posibilidades reales." },
+                { t: "Honorarios transparentes", d: "Antes de contratar, debe tener claridad sobre cuánto va a costar el proceso y qué está incluido." },
+              ].map((item) => (
+                <div key={item.t} className="p-5 border border-gray-100 rounded-lg">
+                  <h3 className="font-medium text-primary-950 mb-2">{item.t}</h3>
+                  <p className="text-gray-500 text-sm leading-relaxed">{item.d}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* FAQs */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6 lg:px-12 max-w-3xl">

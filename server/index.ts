@@ -8,13 +8,35 @@ import db from "./db.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 app.use(compression());
+// Security headers
+app.use((_req, res, next) => {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  next();
+});
+
 app.use(express.json());
 
 let postsCache: { data: any; ts: number } | null = null;
 const CACHE_TTL = 60_000;
 
 function toSlug(text: string) {
-  return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const stopwords = ["el","la","los","las","de","del","en","un","una","y","o","que","como","para","por","con","al","ante","se","lo","su","es","son","todo","sobre"];
+  return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/\b(20\d{2})\b/g, "")
+    .replace(/[^a-z0-9]+/g, " ").trim().split(/\s+/)
+    .filter(w => !stopwords.includes(w))
+    .join("-").replace(/^-|-$/g, "");
+}
+
+function sanitize(text: string) {
+  return text.replace(/[\n\r]+/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function escAttr(text: string) {
+  return sanitize(text).replace(/"/g, "&quot;");
 }
 
 // Public: get published posts
@@ -130,29 +152,35 @@ app.get("/robots.txt", (_req, res) => {
   res.header("Content-Type", "text/plain").send(`User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: https://alexandravasquez.com/sitemap.xml`);
 });
 
-app.use(express.static(path.join(__dirname, "public"), { index: false }));
+app.use(express.static(path.join(__dirname, "public"), { index: false, maxAge: "7d" }));
 
 const htmlPath = path.join(__dirname, "public", "index.html");
 const getHtml = () => fs.readFileSync(htmlPath, "utf-8");
+const OG_IMG = "https://alexandravasquez.com/og-image.png";
 const injectH1 = (html: string, h1: string) =>
-  html.replace('<div id="root"', `<h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">${h1}</h1><div id="root"`);
+  html.replace('<div id="root" class="max-w-full"></div>', `<div id="root" class="max-w-full"><h1>${escAttr(h1)}</h1></div>`);
 
 // SSR: Home
 app.get("/", (_req, res) => {
   let html = getHtml();
-  html = injectH1(html, "Abogada de Derecho de Familia en Manizales");
+  html = injectH1(html, "Abogado de Familia en Manizales");
+  html = html.replace(/<title>.*?<\/title>/, `<title>Abogado de Familia en Manizales | Alexandra Vásquez</title>`);
+  html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="Abogado de familia en Manizales con experiencia en divorcios, custodia de hijos, alimentos y sucesiones. Alexandra Vásquez — consulta hoy." />`);
   const meta = `
-    <meta property="og:title" content="Alexandra Vásquez | Abogada Especialista en Derecho de Familia" />
-    <meta property="og:description" content="Abogada especialista en derecho de familia en Manizales, Colombia. Divorcios, custodia, alimentos, sucesiones." />
+    <meta property="og:title" content="Abogado de Familia en Manizales | Alexandra Vásquez" />
+    <meta property="og:description" content="Divorcios, custodia, alimentos y sucesiones en Manizales. Asesoría legal familiar con Alexandra Vásquez." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://alexandravasquez.com/" />
-    <meta name="keywords" content="abogada familia manizales, abogado familia manizales, derecho de familia colombia, abogado derecho de familia manizales, divorcio manizales, custodia hijos colombia, abogado divorcio manizales" />
+    <meta property="og:image" content="${OG_IMG}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="keywords" content="abogado de familia manizales, abogado familia manizales, derecho de familia manizales, abogado divorcio manizales, custodia hijos manizales, cuota alimentaria manizales" />
     <meta name="author" content="Alexandra Vásquez" />
     <meta name="geo.region" content="CO-CAL" />
     <meta name="geo.placename" content="Manizales" />
     <link rel="canonical" href="https://alexandravasquez.com/" />
     <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"Attorney","name":"Alexandra Vásquez","description":"Abogada especialista en derecho de familia en Manizales, Colombia","url":"https://alexandravasquez.com","address":{"@type":"PostalAddress","addressLocality":"Manizales","addressRegion":"Caldas","addressCountry":"CO"},"areaServed":{"@type":"Country","name":"Colombia"},"knowsAbout":["Derecho de Familia","Divorcios","Custodia","Alimentos","Sucesiones"]}
+    {"@context":"https://schema.org","@type":"Attorney","name":"Alexandra Vásquez","description":"Abogado de familia en Manizales, Colombia. Divorcios, custodia, alimentos y sucesiones.","url":"https://alexandravasquez.com","address":{"@type":"PostalAddress","addressLocality":"Manizales","addressRegion":"Caldas","addressCountry":"CO"},"areaServed":{"@type":"Country","name":"Colombia"},"knowsAbout":["Derecho de Familia","Divorcios","Custodia","Alimentos","Sucesiones"]}
     </script>`;
   html = html.replace("</head>", `${meta}\n</head>`);
   res.send(html);
@@ -162,9 +190,19 @@ app.get("/", (_req, res) => {
 app.get("/sobre-mi", (_req, res) => {
   let html = getHtml();
   html = injectH1(html, "Alexandra Vásquez - Abogada en Manizales");
-  html = html.replace(/<title>.*?<\/title>/, `<title>Sobre Mí | Alexandra Vásquez - Abogada en Manizales</title>`);
-  html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="Conozca a Alexandra Vásquez, abogada con más de 10 años de experiencia en derecho de familia en Manizales, Colombia." />`);
-  const meta = `<link rel="canonical" href="https://alexandravasquez.com/sobre-mi" />`;
+  const title = "Sobre Mí | Alexandra Vásquez - Abogada en Manizales";
+  const desc = "Conozca a Alexandra Vásquez, abogada con más de 10 años de experiencia en derecho de familia en Manizales, Colombia.";
+  html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
+  html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="${desc}" />`);
+  const ld = JSON.stringify({"@context":"https://schema.org","@type":"ProfilePage","mainEntity":{"@type":"Person","name":"Alexandra Vásquez","jobTitle":"Abogada","description":desc,"url":"https://alexandravasquez.com/sobre-mi","address":{"@type":"PostalAddress","addressLocality":"Manizales","addressRegion":"Caldas","addressCountry":"CO"}}});
+  const meta = `
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${desc}" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content="https://alexandravasquez.com/sobre-mi" />
+    <meta property="og:image" content="${OG_IMG}" />
+    <link rel="canonical" href="https://alexandravasquez.com/sobre-mi" />
+    <script type="application/ld+json">${ld}</script>`;
   html = html.replace("</head>", `${meta}\n</head>`);
   res.send(html);
 });
@@ -172,8 +210,9 @@ app.get("/sobre-mi", (_req, res) => {
 // SSR: Servicios
 app.get("/servicios/abogado-derecho-familia-manizales", (_req, res) => {
   let html = getHtml();
+  html = injectH1(html, "Abogado de Familia en Manizales");
   const title = "Abogado Familia Manizales | Divorcios y Custodia";
-  const desc = "Abogada especialista en derecho de familia en Manizales. Divorcios, custodia de hijos, cuota alimentaria y separación de bienes. Consulta ahora.";
+  const desc = "Abogado de familia en Manizales especialista en divorcios, custodia de hijos, cuota alimentaria y sucesiones. Consulta con Alexandra Vásquez hoy.";
   const url = "https://alexandravasquez.com/servicios/abogado-derecho-familia-manizales";
   html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
   html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="${desc}" />`);
@@ -187,6 +226,7 @@ app.get("/servicios/abogado-derecho-familia-manizales", (_req, res) => {
     <meta property="og:description" content="${desc}" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="${url}" />
+    <meta property="og:image" content="${OG_IMG}" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${title}" />
     <meta name="twitter:description" content="${desc}" />
@@ -203,17 +243,20 @@ app.get("/servicios/abogado-derecho-familia-manizales", (_req, res) => {
 // SSR: Noticias index
 app.get("/noticias", (_req, res) => {
   let html = getHtml();
-  html = injectH1(html, "Noticias de Derecho de Familia en Colombia");
-  const title = "Derecho de Familia Colombia | Alexandra Vásquez";
+  html = injectH1(html, "Blog Jurídico | Alexandra Vásquez");
+  const title = "Blog Jurídico | Alexandra Vásquez";
   const desc = "Artículos sobre derecho de familia en Colombia: divorcios, custodia, alimentos y sucesiones. Blog jurídico de Alexandra Vásquez, Manizales.";
   html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
   html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="${desc}" />`);
+  const ld = JSON.stringify({"@context":"https://schema.org","@type":"Blog","name":title,"description":desc,"url":"https://alexandravasquez.com/noticias","author":{"@type":"Person","name":"Alexandra Vásquez"}});
   const meta = `
     <meta property="og:title" content="${title}" />
     <meta property="og:description" content="${desc}" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://alexandravasquez.com/noticias" />
-    <link rel="canonical" href="https://alexandravasquez.com/noticias" />`;
+    <meta property="og:image" content="${OG_IMG}" />
+    <link rel="canonical" href="https://alexandravasquez.com/noticias" />
+    <script type="application/ld+json">${ld}</script>`;
   html = html.replace("</head>", `${meta}\n</head>`);
   res.send(html);
 });
@@ -222,12 +265,28 @@ app.get("/noticias/:catSlug", (req, res) => {
   const cat = db.prepare("SELECT DISTINCT category, category_slug FROM posts WHERE category_slug = ? AND published = 1").get(req.params.catSlug) as any;
   let html = getHtml();
   const catName = cat?.category || req.params.catSlug;
+  const url = `https://alexandravasquez.com/noticias/${req.params.catSlug}`;
+  const title = `${catName} | Blog Jurídico - Alexandra Vásquez`;
+  const desc = `Artículos sobre ${catName.toLowerCase()} por Alexandra Vásquez, abogada especialista en derecho de familia en Colombia.`;
   html = injectH1(html, `Artículos sobre ${catName} en Colombia`);
-  html = html.replace(/<title>.*?<\/title>/, `<title>${catName} | Blog Jurídico - Alexandra Vásquez</title>`);
-  html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="Artículos sobre ${catName.toLowerCase()} por Alexandra Vásquez, abogada especialista en derecho de familia en Colombia." />`);
-  const meta = `<link rel="canonical" href="https://alexandravasquez.com/noticias/${req.params.catSlug}" />`;
+  html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
+  html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="${desc}" />`);
+  const ld = JSON.stringify({"@context":"https://schema.org","@type":"CollectionPage","name":title,"description":desc,"url":url});
+  const meta = `
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${desc}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="${url}" />
+    <meta property="og:image" content="${OG_IMG}" />
+    <link rel="canonical" href="${url}" />
+    <script type="application/ld+json">${ld}</script>`;
   html = html.replace("</head>", `${meta}\n</head>`);
   res.send(html);
+});
+
+// 301 redirect: old cannibalizing post → servicios
+app.get("/noticias/derecho-de-familia/abogado-de-familia-en-manizales", (_req, res) => {
+  res.redirect(301, "/servicios/abogado-derecho-familia-manizales");
 });
 
 // SSR: Post page
@@ -236,29 +295,34 @@ app.get("/noticias/:catSlug/:slug", (req, res) => {
   const post = db.prepare("SELECT * FROM posts WHERE category_slug = ? AND slug = ? AND published = 1").get(req.params.catSlug, req.params.slug) as any;
   if (post) {
     html = injectH1(html, post.title);
-    const title = post.meta_title || post.title;
-    const desc = post.meta_description || post.excerpt;
+    const title = escAttr(post.meta_title || post.title);
+    const desc = escAttr(post.meta_description || post.excerpt);
     const url = `https://alexandravasquez.com/noticias/${post.category_slug}/${post.slug}`;
-    html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
+    html = html.replace(/<title>.*?<\/title>/, `<title>${sanitize(post.meta_title || post.title)}</title>`);
     html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="${desc}" />`);
+    const ld = JSON.stringify({"@context":"https://schema.org","@type":"Article","headline":sanitize(post.title),"description":sanitize(post.meta_description || post.excerpt),"datePublished":post.date,"author":{"@type":"Person","name":"Alexandra Vásquez","jobTitle":"Abogada"},"publisher":{"@type":"Organization","name":"Alexandra Vásquez - Abogada"},"mainEntityOfPage":url});
     const meta = `
     <meta property="og:title" content="${title}" />
     <meta property="og:description" content="${desc}" />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="${url}" />
-    <meta name="keywords" content="${post.category}" />
+    <meta property="og:image" content="${OG_IMG}" />
+    <meta name="keywords" content="${escAttr(post.category)}" />
     <meta name="author" content="Alexandra Vásquez" />
     <link rel="canonical" href="${url}" />
-    <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"Article","headline":"${post.title}","description":"${desc}","datePublished":"${post.date}","author":{"@type":"Person","name":"Alexandra Vásquez","jobTitle":"Abogada"},"publisher":{"@type":"Organization","name":"Alexandra Vásquez - Abogada"},"mainEntityOfPage":"${url}"}
-    </script>`;
+    <script type="application/ld+json">${ld}</script>`;
     html = html.replace("</head>", `${meta}\n</head>`);
   }
   res.send(html);
 });
 
-// SPA fallback
-app.get("*", (_req, res) => res.sendFile(htmlPath));
+// SPA fallback — known client routes get 200, unknown get 404
+const spaRoutes = ["/", "/sobre-mi", "/noticias", "/servicios/abogado-derecho-familia-manizales", "/admin", "/admin/posts", "/admin/contacts"];
+app.get("*", (req, res) => {
+  const isKnown = spaRoutes.includes(req.path)
+    || req.path.startsWith("/noticias/");
+  res.status(isKnown ? 200 : 404).sendFile(htmlPath);
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
