@@ -28,8 +28,8 @@ export default function Contact() {
             <div className="space-y-8 mb-10">
               {[
                 { icon: MapPin, label: "Ubicación", value: "Manizales, Caldas — Colombia" },
-                { icon: Phone, label: "Teléfono", value: "Contáctenos para agendar su cita" },
-                { icon: Mail, label: "Email", value: "Escríbanos para más información" },
+                { icon: Phone, label: "Teléfono", value: "320 717 0726" },
+                { icon: Mail, label: "Email", value: "contacto@alexandravasquez.com" },
               ].map((item) => (
                 <div key={item.label} className="flex items-start gap-4">
                   <item.icon className="text-gold-400/60 mt-0.5 shrink-0" size={18} />
@@ -40,7 +40,7 @@ export default function Contact() {
                 </div>
               ))}
             </div>
-            <a href="https://wa.me/57" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-green-700/20 border border-green-500/30 text-green-400 text-[12px] uppercase tracking-[0.2em] rounded hover:bg-green-700/30 transition-colors">
+            <a href="https://wa.me/573207170726" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-green-700/20 border border-green-500/30 text-green-400 text-[12px] uppercase tracking-[0.2em] rounded hover:bg-green-700/30 transition-colors">
               <MessageCircle size={16} /> WhatsApp
             </a>
           </div>
