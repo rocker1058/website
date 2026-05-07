@@ -142,6 +142,7 @@ app.get("/sitemap.xml", (_req, res) => {
     xml += `  <url><loc>${base}/noticias/${c.category_slug}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>\n`;
   }
   for (const p of posts) {
+    if (p.category_slug === "derecho-de-familia" && p.slug === "abogado-de-familia-en-manizales") continue;
     xml += `  <url><loc>${base}/noticias/${p.category_slug}/${p.slug}</loc><lastmod>${p.date}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>\n`;
   }
   xml += `</urlset>`;
@@ -320,7 +321,8 @@ app.get("/noticias/:catSlug/:slug", (req, res) => {
 const spaRoutes = ["/", "/sobre-mi", "/noticias", "/servicios/abogado-derecho-familia-manizales", "/admin", "/admin/posts", "/admin/contacts"];
 app.get("*", (req, res) => {
   const isKnown = spaRoutes.includes(req.path)
-    || req.path.startsWith("/noticias/");
+    || req.path.startsWith("/noticias/")
+    || req.path.startsWith("/servicios/");
   res.status(isKnown ? 200 : 404).sendFile(htmlPath);
 });
 
