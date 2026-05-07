@@ -137,6 +137,10 @@ app.get("/sitemap.xml", (_req, res) => {
   xml += `  <url><loc>${base}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>\n`;
   xml += `  <url><loc>${base}/sobre-mi</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>\n`;
   xml += `  <url><loc>${base}/servicios/abogado-derecho-familia-manizales</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>\n`;
+  xml += `  <url><loc>${base}/servicios/divorcio-manizales</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>\n`;
+  xml += `  <url><loc>${base}/servicios/custodia-hijos-manizales</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>\n`;
+  xml += `  <url><loc>${base}/servicios/sucesiones-manizales</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>\n`;
+  xml += `  <url><loc>${base}/servicios/cuota-alimentaria-manizales</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>\n`;
   xml += `  <url><loc>${base}/noticias</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n`;
   for (const c of cats) {
     xml += `  <url><loc>${base}/noticias/${c.category_slug}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>\n`;
@@ -240,6 +244,110 @@ app.get("/servicios/abogado-derecho-familia-manizales", (_req, res) => {
   res.send(html);
 });
 
+
+// SSR: Divorcio Manizales
+app.get("/servicios/divorcio-manizales", (_req, res) => {
+  let html = getHtml();
+  html = injectH1(html, "Abogado de Divorcios en Manizales");
+  const title = "Abogado Divorcio Manizales | Trámite Rápido y Seguro";
+  const desc = "Abogado especialista en divorcios en Manizales. Divorcio express ante notario, divorcio contencioso y de mutuo acuerdo. Asesoría con Alexandra Vásquez.";
+  const url = "https://alexandravasquez.com/servicios/divorcio-manizales";
+  html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
+  html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="${desc}" />`);
+  const ld = JSON.stringify({"@context":"https://schema.org","@type":"LegalService","name":"Divorcios en Manizales - Alexandra Vásquez","description":desc,"url":url,"areaServed":{"@type":"City","name":"Manizales"},"serviceType":"Divorcios","address":{"@type":"PostalAddress","addressLocality":"Manizales","addressRegion":"Caldas","addressCountry":"CO"},"provider":{"@type":"Person","name":"Alexandra Vásquez","jobTitle":"Abogada"}});
+  const meta = `
+    <meta name="robots" content="index, follow" />
+    <meta name="geo.region" content="CO-CAL" />
+    <meta name="geo.placename" content="Manizales" />
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${desc}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="${url}" />
+    <meta property="og:image" content="${OG_IMG}" />
+    <meta name="keywords" content="abogado divorcio manizales, divorcio express manizales, divorcio mutuo acuerdo manizales, abogado divorcio caldas, cuánto cuesta divorcio manizales" />
+    <link rel="canonical" href="${url}" />
+    <script type="application/ld+json">${ld}</script>`;
+  html = html.replace("</head>", `${meta}\n</head>`);
+  res.send(html);
+});
+
+// SSR: Custodia Hijos Manizales
+app.get("/servicios/custodia-hijos-manizales", (_req, res) => {
+  let html = getHtml();
+  html = injectH1(html, "Abogado de Custodia de Hijos en Manizales");
+  const title = "Custodia de Hijos Manizales | Abogado Especialista";
+  const desc = "Abogado especialista en custodia de hijos en Manizales. Custodia compartida, régimen de visitas y modificación de custodia. Alexandra Vásquez.";
+  const url = "https://alexandravasquez.com/servicios/custodia-hijos-manizales";
+  html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
+  html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="${desc}" />`);
+  const ld = JSON.stringify({"@context":"https://schema.org","@type":"LegalService","name":"Custodia de Hijos en Manizales - Alexandra Vásquez","description":desc,"url":url,"areaServed":{"@type":"City","name":"Manizales"},"serviceType":"Custodia de Hijos","address":{"@type":"PostalAddress","addressLocality":"Manizales","addressRegion":"Caldas","addressCountry":"CO"},"provider":{"@type":"Person","name":"Alexandra Vásquez","jobTitle":"Abogada"}});
+  const meta = `
+    <meta name="robots" content="index, follow" />
+    <meta name="geo.region" content="CO-CAL" />
+    <meta name="geo.placename" content="Manizales" />
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${desc}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="${url}" />
+    <meta property="og:image" content="${OG_IMG}" />
+    <meta name="keywords" content="custodia hijos manizales, abogado custodia manizales, régimen de visitas manizales, custodia compartida colombia, patria potestad manizales" />
+    <link rel="canonical" href="${url}" />
+    <script type="application/ld+json">${ld}</script>`;
+  html = html.replace("</head>", `${meta}\n</head>`);
+  res.send(html);
+});
+
+// SSR: Sucesiones Manizales
+app.get("/servicios/sucesiones-manizales", (_req, res) => {
+  let html = getHtml();
+  html = injectH1(html, "Abogado de Sucesiones en Manizales");
+  const title = "Abogado Sucesiones Manizales | Herencias y Testamentos";
+  const desc = "Abogado especialista en sucesiones en Manizales. Sucesión intestada, testamentos, liquidación de herencia y partición de bienes. Alexandra Vásquez.";
+  const url = "https://alexandravasquez.com/servicios/sucesiones-manizales";
+  html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
+  html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="${desc}" />`);
+  const ld = JSON.stringify({"@context":"https://schema.org","@type":"LegalService","name":"Sucesiones en Manizales - Alexandra Vásquez","description":desc,"url":url,"areaServed":{"@type":"City","name":"Manizales"},"serviceType":"Sucesiones y Herencias","address":{"@type":"PostalAddress","addressLocality":"Manizales","addressRegion":"Caldas","addressCountry":"CO"},"provider":{"@type":"Person","name":"Alexandra Vásquez","jobTitle":"Abogada"}});
+  const meta = `
+    <meta name="robots" content="index, follow" />
+    <meta name="geo.region" content="CO-CAL" />
+    <meta name="geo.placename" content="Manizales" />
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${desc}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="${url}" />
+    <meta property="og:image" content="${OG_IMG}" />
+    <meta name="keywords" content="abogado sucesiones manizales, herencia manizales, sucesión intestada manizales, testamento colombia, partición bienes manizales" />
+    <link rel="canonical" href="${url}" />
+    <script type="application/ld+json">${ld}</script>`;
+  html = html.replace("</head>", `${meta}\n</head>`);
+  res.send(html);
+});
+
+// SSR: Cuota Alimentaria Manizales
+app.get("/servicios/cuota-alimentaria-manizales", (_req, res) => {
+  let html = getHtml();
+  html = injectH1(html, "Abogado Cuota Alimentaria en Manizales");
+  const title = "Cuota Alimentaria Manizales | Abogado Alimentos";
+  const desc = "Abogado especialista en cuota alimentaria en Manizales. Fijación, aumento, reducción y cobro de alimentos para hijos. Consulta con Alexandra Vásquez.";
+  const url = "https://alexandravasquez.com/servicios/cuota-alimentaria-manizales";
+  html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
+  html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="${desc}" />`);
+  const ld = JSON.stringify({"@context":"https://schema.org","@type":"LegalService","name":"Cuota Alimentaria en Manizales - Alexandra Vásquez","description":desc,"url":url,"areaServed":{"@type":"City","name":"Manizales"},"serviceType":"Cuota Alimentaria","address":{"@type":"PostalAddress","addressLocality":"Manizales","addressRegion":"Caldas","addressCountry":"CO"},"provider":{"@type":"Person","name":"Alexandra Vásquez","jobTitle":"Abogada"}});
+  const meta = `
+    <meta name="robots" content="index, follow" />
+    <meta name="geo.region" content="CO-CAL" />
+    <meta name="geo.placename" content="Manizales" />
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${desc}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="${url}" />
+    <meta property="og:image" content="${OG_IMG}" />
+    <meta name="keywords" content="cuota alimentaria manizales, abogado alimentos manizales, demanda alimentos manizales, pensión alimenticia hijos colombia, cobro alimentos manizales" />
+    <link rel="canonical" href="${url}" />
+    <script type="application/ld+json">${ld}</script>`;
+  html = html.replace("</head>", `${meta}\n</head>`);
+  res.send(html);
+});
 
 // SSR: Noticias index
 app.get("/noticias", (_req, res) => {
