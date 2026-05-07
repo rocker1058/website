@@ -4,5 +4,5 @@ cd ~/lawyer
 git pull origin master
 npm install --production
 npm run build
-pm2 restart lawyer
+pm2 restart lawyer --update-env
 echo "✅ Deploy complete"
