@@ -164,7 +164,7 @@ const injectH1 = (html: string, h1: string) =>
 // SSR: Home
 app.get("/", (_req, res) => {
   let html = getHtml();
-  html = injectH1(html, "Abogado de Familia en Manizales");
+  html = injectH1(html, "Abogado Especialista en Derecho de Familia");
   html = html.replace(/<title>.*?<\/title>/, `<title>Abogado de Familia en Manizales | Alexandra Vásquez</title>`);
   html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="Abogado de familia en Manizales con experiencia en divorcios, custodia de hijos, alimentos y sucesiones. Alexandra Vásquez — consulta hoy." />`);
   const meta = `
