@@ -499,12 +499,18 @@ app.get("/noticias", (_req, res) => {
 
 app.get("/noticias/:catSlug", (req, res) => {
   const cat = db.prepare("SELECT DISTINCT category, category_slug FROM posts WHERE category_slug = ? AND published = 1").get(req.params.catSlug) as any;
+  const posts = db.prepare("SELECT title, slug, excerpt, category_slug, date FROM posts WHERE category_slug = ? AND published = 1 ORDER BY id DESC").all(req.params.catSlug) as any[];
   let html = getHtml();
   const catName = cat?.category || req.params.catSlug;
   const url = `https://alexandravasquez.com/noticias/${req.params.catSlug}`;
   const title = `${catName} | Blog Jurídico - Alexandra Vásquez`;
   const desc = `Artículos sobre ${catName.toLowerCase()} por Alexandra Vásquez, abogada especialista en derecho de familia en Colombia.`;
-  html = injectH1(html, `Artículos sobre ${catName} en Colombia`);
+  const postsList = posts.map((p: any) => `<li><a href="/noticias/${p.category_slug}/${p.slug}">${p.title}</a><br><small>${p.date}</small><br>${p.excerpt}</li>`).join("\n");
+  const content = `<h1>Artículos sobre ${catName} en Colombia</h1>
+<p>${desc} Encuentre información actualizada sobre procesos legales, requisitos, costos y pasos a seguir en cada trámite de ${catName.toLowerCase()} en Colombia.</p>
+<section><h2>Artículos publicados</h2><ul>${postsList}</ul></section>
+<p><a href="/noticias">Ver todas las categorías</a> | <a href="/servicios/abogado-derecho-familia-manizales">Nuestros servicios</a> | <a href="/sobre-mi">Sobre Alexandra Vásquez</a></p>`;
+  html = html.replace('<div id="root" class="max-w-full"></div>', `<div id="root" class="max-w-full">${content}</div>`);
   html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
   html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="${desc}" />`);
   const ld = JSON.stringify({"@context":"https://schema.org","@type":"CollectionPage","name":title,"description":desc,"url":url});
