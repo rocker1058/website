@@ -303,7 +303,7 @@ app.get("/servicios/abogado-derecho-familia-manizales", (_req, res) => {
     <meta name="keywords" content="abogado derecho de familia manizales, abogada familia manizales, divorcio manizales, custodia hijos manizales, cuota alimentaria colombia" />
     <link rel="canonical" href="${url}" />
     <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"LegalService","name":"Alexandra Vásquez - Abogada de Familia en Manizales","description":"${desc}","url":"${url}","areaServed":{"@type":"City","name":"Manizales"},"serviceType":"Derecho de Familia","address":{"@type":"PostalAddress","addressLocality":"Manizales","addressRegion":"Caldas","addressCountry":"CO"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"Servicios Legales","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Divorcios en Manizales"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Custodia de hijos"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Cuota alimentaria"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Separación de bienes"}}]}}
+    {"@context":"https://schema.org","@type":"LegalService","name":"Alexandra Vásquez - Abogada de Familia en Manizales","description":"${desc}","url":"${url}","areaServed":{"@type":"City","name":"Manizales"},"knowsAbout":"Derecho de Familia","address":{"@type":"PostalAddress","addressLocality":"Manizales","addressRegion":"Caldas","addressCountry":"CO"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"Servicios Legales","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Divorcios en Manizales"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Custodia de hijos"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Cuota alimentaria"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Separación de bienes"}}]}}
     </script>`;
   html = html.replace("</head>", `${meta}\n</head>`);
   res.send(html);
@@ -331,7 +331,7 @@ app.get("/servicios/divorcio-manizales", (_req, res) => {
   const url = "https://alexandravasquez.com/servicios/divorcio-manizales";
   html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
   html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="${desc}" />`);
-  const ld = JSON.stringify({"@context":"https://schema.org","@type":"LegalService","name":"Divorcios en Manizales - Alexandra Vásquez","description":desc,"url":url,"areaServed":{"@type":"City","name":"Manizales"},"serviceType":"Divorcios","address":{"@type":"PostalAddress","addressLocality":"Manizales","addressRegion":"Caldas","addressCountry":"CO"},"provider":{"@type":"Person","name":"Alexandra Vásquez","jobTitle":"Abogada"}});
+  const ld = JSON.stringify({"@context":"https://schema.org","@type":"LegalService","name":"Divorcios en Manizales - Alexandra Vásquez","description":desc,"url":url,"areaServed":{"@type":"City","name":"Manizales"},"knowsAbout":"Divorcios","address":{"@type":"PostalAddress","addressLocality":"Manizales","addressRegion":"Caldas","addressCountry":"CO"}});
   const meta = `
     <meta name="robots" content="index, follow" />
     <meta name="geo.region" content="CO-CAL" />
@@ -372,7 +372,7 @@ app.get("/servicios/custodia-hijos-manizales", (_req, res) => {
   const url = "https://alexandravasquez.com/servicios/custodia-hijos-manizales";
   html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
   html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="${desc}" />`);
-  const ld = JSON.stringify({"@context":"https://schema.org","@type":"LegalService","name":"Custodia de Hijos en Manizales - Alexandra Vásquez","description":desc,"url":url,"areaServed":{"@type":"City","name":"Manizales"},"serviceType":"Custodia de Hijos","address":{"@type":"PostalAddress","addressLocality":"Manizales","addressRegion":"Caldas","addressCountry":"CO"},"provider":{"@type":"Person","name":"Alexandra Vásquez","jobTitle":"Abogada"}});
+  const ld = JSON.stringify({"@context":"https://schema.org","@type":"LegalService","name":"Custodia de Hijos en Manizales - Alexandra Vásquez","description":desc,"url":url,"areaServed":{"@type":"City","name":"Manizales"},"knowsAbout":"Custodia de Hijos","address":{"@type":"PostalAddress","addressLocality":"Manizales","addressRegion":"Caldas","addressCountry":"CO"}});
   const meta = `
     <meta name="robots" content="index, follow" />
     <meta name="geo.region" content="CO-CAL" />
@@ -411,7 +411,7 @@ app.get("/servicios/sucesiones-manizales", (_req, res) => {
   const url = "https://alexandravasquez.com/servicios/sucesiones-manizales";
   html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
   html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="${desc}" />`);
-  const ld = JSON.stringify({"@context":"https://schema.org","@type":"LegalService","name":"Sucesiones en Manizales - Alexandra Vásquez","description":desc,"url":url,"areaServed":{"@type":"City","name":"Manizales"},"serviceType":"Sucesiones y Herencias","address":{"@type":"PostalAddress","addressLocality":"Manizales","addressRegion":"Caldas","addressCountry":"CO"},"provider":{"@type":"Person","name":"Alexandra Vásquez","jobTitle":"Abogada"}});
+  const ld = JSON.stringify({"@context":"https://schema.org","@type":"LegalService","name":"Sucesiones en Manizales - Alexandra Vásquez","description":desc,"url":url,"areaServed":{"@type":"City","name":"Manizales"},"knowsAbout":"Sucesiones y Herencias","address":{"@type":"PostalAddress","addressLocality":"Manizales","addressRegion":"Caldas","addressCountry":"CO"}});
   const meta = `
     <meta name="robots" content="index, follow" />
     <meta name="geo.region" content="CO-CAL" />
@@ -453,7 +453,7 @@ app.get("/servicios/cuota-alimentaria-manizales", (_req, res) => {
   const url = "https://alexandravasquez.com/servicios/cuota-alimentaria-manizales";
   html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
   html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="${desc}" />`);
-  const ld = JSON.stringify({"@context":"https://schema.org","@type":"LegalService","name":"Cuota Alimentaria en Manizales - Alexandra Vásquez","description":desc,"url":url,"areaServed":{"@type":"City","name":"Manizales"},"serviceType":"Cuota Alimentaria","address":{"@type":"PostalAddress","addressLocality":"Manizales","addressRegion":"Caldas","addressCountry":"CO"},"provider":{"@type":"Person","name":"Alexandra Vásquez","jobTitle":"Abogada"}});
+  const ld = JSON.stringify({"@context":"https://schema.org","@type":"LegalService","name":"Cuota Alimentaria en Manizales - Alexandra Vásquez","description":desc,"url":url,"areaServed":{"@type":"City","name":"Manizales"},"knowsAbout":"Cuota Alimentaria","address":{"@type":"PostalAddress","addressLocality":"Manizales","addressRegion":"Caldas","addressCountry":"CO"}});
   const meta = `
     <meta name="robots" content="index, follow" />
     <meta name="geo.region" content="CO-CAL" />
