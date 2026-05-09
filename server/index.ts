@@ -3,6 +3,7 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import compression from "compression";
+import { marked } from "marked";
 import db from "./db.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -157,6 +158,36 @@ app.get("/robots.txt", (_req, res) => {
   res.header("Content-Type", "text/plain").send(`User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: https://alexandravasquez.com/sitemap.xml`);
 });
 
+app.get("/llms.txt", (_req, res) => {
+  res.header("Content-Type", "text/plain").send(`# Alexandra Vásquez - Abogada de Familia en Manizales
+
+## Información general
+- Nombre: Alexandra Vásquez
+- Profesión: Abogada especialista en Derecho de Familia
+- Ubicación: Manizales, Caldas, Colombia
+- Sitio web: https://alexandravasquez.com
+
+## Áreas de práctica
+- Divorcios (express y contenciosos)
+- Custodia de hijos
+- Cuota alimentaria
+- Sucesiones y herencias
+- Liquidación de sociedad conyugal
+- Violencia intrafamiliar
+- Unión marital de hecho
+
+## Páginas principales
+- Inicio: https://alexandravasquez.com/
+- Sobre mí: https://alexandravasquez.com/sobre-mi
+- Servicios: https://alexandravasquez.com/servicios/abogado-derecho-familia-manizales
+- Divorcio: https://alexandravasquez.com/servicios/divorcio-manizales
+- Custodia: https://alexandravasquez.com/servicios/custodia-hijos-manizales
+- Cuota alimentaria: https://alexandravasquez.com/servicios/cuota-alimentaria-manizales
+- Sucesiones: https://alexandravasquez.com/servicios/sucesiones-manizales
+- Blog: https://alexandravasquez.com/noticias
+`);
+});
+
 app.use(express.static(path.join(__dirname, "public"), { index: false, maxAge: "7d" }));
 
 const htmlPath = path.join(__dirname, "public", "index.html");
@@ -168,7 +199,21 @@ const injectH1 = (html: string, h1: string) =>
 // SSR: Home
 app.get("/", (_req, res) => {
   let html = getHtml();
-  html = injectH1(html, "Abogado Especialista en Derecho de Familia");
+  const homeContent = `<h1>Abogado Especialista en Derecho de Familia</h1>
+<p>Alexandra Vásquez — Abogada de familia en Manizales, Caldas. Más de 10 años de experiencia protegiendo los derechos de las familias colombianas.</p>
+<nav><h2>Áreas de Práctica</h2><ul>
+<li><a href="/servicios/divorcio-manizales">Divorcios en Manizales</a> — Divorcio express ante notario y divorcio contencioso</li>
+<li><a href="/servicios/custodia-hijos-manizales">Custodia de Hijos</a> — Custodia compartida, régimen de visitas y patria potestad</li>
+<li><a href="/servicios/cuota-alimentaria-manizales">Cuota Alimentaria</a> — Fijación, aumento, reducción y cobro de alimentos</li>
+<li><a href="/servicios/sucesiones-manizales">Sucesiones y Herencias</a> — Sucesión intestada, testamentos y partición de bienes</li>
+</ul></nav>
+<section><h2>Blog Jurídico</h2><ul>
+<li><a href="/noticias/divorcios/divorcio-express-en-colombia-requisitos-y-pasos-en-2026">Divorcio Express en Colombia: Requisitos y Pasos en 2026</a></li>
+<li><a href="/noticias/divorcios/cuanto-cuesta-un-divorcio-en-colombia-en-2026">¿Cuánto cuesta un divorcio en Colombia en 2026?</a></li>
+<li><a href="/noticias/derecho-de-familia/como-calcular-la-cuota-alimentaria-de-los-hijos-en-colombia">¿Cómo calcular la cuota alimentaria de los hijos en Colombia?</a></li>
+</ul><a href="/noticias">Ver todos los artículos</a></section>
+<p><a href="/sobre-mi">Conozca a Alexandra Vásquez</a></p>`;
+  html = html.replace('<div id="root" class="max-w-full"></div>', `<div id="root" class="max-w-full">${homeContent}</div>`);
   html = html.replace(/<title>.*?<\/title>/, `<title>Abogado de Familia en Manizales | Alexandra Vásquez</title>`);
   html = html.replace(/<meta name="description".*?\/>/, `<meta name="description" content="Abogado de familia en Manizales con experiencia en divorcios, custodia de hijos, alimentos y sucesiones. Alexandra Vásquez — consulta hoy." />`);
   const meta = `
@@ -191,10 +236,15 @@ app.get("/", (_req, res) => {
   res.send(html);
 });
 
-// SSR: Sobre Mi
+// SSR: Sobre Mi — full content for crawlers
 app.get("/sobre-mi", (_req, res) => {
   let html = getHtml();
-  html = injectH1(html, "Alexandra Vásquez - Abogada en Manizales");
+  const aboutContent = `<h1>Alexandra Vásquez - Abogada de Familia en Manizales</h1>
+<section><h2>Mi Historia</h2><p>Abogada de la Universidad de Caldas con especialización en Derecho de Familia. Con más de una década de trayectoria, he dedicado mi carrera a proteger los derechos de las familias colombianas con un enfoque humano, estratégico y orientado a resultados.</p><p>Cada caso es único y merece una atención personalizada. Mi compromiso es brindarle la tranquilidad de saber que su situación está en manos de una profesional que entiende la importancia de lo que está en juego: su familia.</p><p>Radicada en Manizales, Caldas, brindo asesoría legal a familias en toda Colombia, combinando el conocimiento jurídico con la sensibilidad que cada situación familiar requiere.</p></section>
+<section><h2>Experiencia</h2><ul><li>Más de 10 años de experiencia en derecho de familia</li><li>Más de 500 familias asesoradas</li><li>98% de casos exitosos</li><li>15+ especializaciones y cursos de actualización</li></ul></section>
+<section><h2>Áreas de práctica</h2><ul><li><a href="/servicios/divorcio-manizales">Divorcios en Manizales</a> — Express y contenciosos</li><li><a href="/servicios/custodia-hijos-manizales">Custodia de hijos</a> — Compartida, régimen de visitas</li><li><a href="/servicios/cuota-alimentaria-manizales">Cuota alimentaria</a> — Fijación, aumento y cobro</li><li><a href="/servicios/sucesiones-manizales">Sucesiones y herencias</a> — Testamentos, partición de bienes</li></ul></section>
+<section><h2>¿Por qué elegirme?</h2><ul><li><strong>Compromiso:</strong> Cada caso recibe mi dedicación completa. Su tranquilidad es mi prioridad.</li><li><strong>Experiencia:</strong> Formación continua y actualización permanente en legislación familiar colombiana.</li><li><strong>Cercanía:</strong> Atención personalizada y comunicación constante durante todo el proceso.</li></ul></section>`;
+  html = html.replace('<div id="root" class="max-w-full"></div>', `<div id="root" class="max-w-full">${aboutContent}</div>`);
   const title = "Sobre Mí | Alexandra Vásquez - Abogada en Manizales";
   const desc = "Conozca a Alexandra Vásquez, abogada con más de 10 años de experiencia en derecho de familia en Manizales, Colombia.";
   html = html.replace(/<title>.*?<\/title>/, `<title>${title}</title>`);
@@ -398,12 +448,15 @@ app.get("/noticias/derecho-de-familia/abogado-de-familia-en-manizales", (_req, r
   res.redirect(301, "/servicios/abogado-derecho-familia-manizales");
 });
 
-// SSR: Post page
+// SSR: Post page — full content for crawlers
 app.get("/noticias/:catSlug/:slug", (req, res) => {
   let html = getHtml();
   const post = db.prepare("SELECT * FROM posts WHERE category_slug = ? AND slug = ? AND published = 1").get(req.params.catSlug, req.params.slug) as any;
   if (post) {
-    html = injectH1(html, post.title);
+    // Inject full article content so crawlers see it without JS
+    const renderedContent = marked(post.content) as string;
+    const articleHtml = `<h1>${escAttr(post.title)}</h1><p>${escAttr(post.excerpt)}</p><article>${renderedContent}</article>`;
+    html = html.replace('<div id="root" class="max-w-full"></div>', `<div id="root" class="max-w-full">${articleHtml}</div>`);
     const title = escAttr(post.meta_title || post.title);
     const desc = escAttr(post.meta_description || post.excerpt);
     const url = `https://alexandravasquez.com/noticias/${post.category_slug}/${post.slug}`;
