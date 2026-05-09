@@ -212,7 +212,7 @@ app.get("/", (_req, res) => {
 <li><a href="/noticias/divorcios/divorcio-express-en-colombia-requisitos-y-pasos-en-2026">Divorcio Express en Colombia: Requisitos y Pasos en 2026</a> — Todo lo que necesita saber sobre el divorcio express ante notario.</li>
 <li><a href="/noticias/divorcios/cuanto-cuesta-un-divorcio-en-colombia-en-2026">¿Cuánto cuesta un divorcio en Colombia en 2026?</a> — Costos, honorarios y factores que influyen en el precio.</li>
 <li><a href="/noticias/derecho-de-familia/como-calcular-la-cuota-alimentaria-de-los-hijos-en-colombia">¿Cómo calcular la cuota alimentaria de los hijos en Colombia?</a> — Porcentajes, ingresos y proceso legal.</li>
-</ul><a href="/noticias">Ver todos los artículos del blog jurídico</a></section>
+</ul><p>Categorías: <a href="/noticias/divorcios">Divorcios</a> | <a href="/noticias/derecho-de-familia">Derecho de Familia</a> | <a href="/noticias">Ver todos los artículos del blog jurídico</a></p></section>
 <p><a href="/sobre-mi">Conozca a Alexandra Vásquez — Abogada de Familia en Manizales</a></p>`;
   html = html.replace('<div id="root" class="max-w-full"></div>', `<div id="root" class="max-w-full">${homeContent}</div>`);
   html = html.replace(/<title>.*?<\/title>/, `<title>Abogado de Familia en Manizales | Alexandra Vásquez</title>`);
@@ -278,8 +278,8 @@ app.get("/servicios/abogado-derecho-familia-manizales", (_req, res) => {
 <li><strong>Violencia Intrafamiliar:</strong> Medidas de protección y acompañamiento legal.</li>
 <li><strong>Unión Marital de Hecho:</strong> Declaración, derechos patrimoniales y disolución.</li></ul></section>
 <section><h2>¿Por qué elegir a Alexandra Vásquez?</h2>
-<ul><li>Más de 10 años de experiencia en derecho de familia</li><li>Más de 500 familias asesoradas en Manizales y Colombia</li><li>Atención personalizada y comunicación constante</li><li>Enfoque humano y orientado a resultados</li></ul></section>
-<p><a href="/sobre-mi">Conozca más sobre Alexandra Vásquez</a></p>`;
+<ul><li>Más de 10 años de experiencia exclusiva en derecho de familia colombiano</li><li>Más de 500 familias asesoradas exitosamente en Manizales y Caldas</li><li>Atención personalizada y comunicación constante durante todo su proceso</li><li>Enfoque humano y orientado a resultados concretos para su caso</li><li>Experiencia ante juzgados de familia, notarías, ICBF y comisarías de familia de Manizales</li></ul></section>
+<p><a href="/sobre-mi">Conozca más sobre Alexandra Vásquez</a> | <a href="/noticias">Blog jurídico</a></p>`;
   html = html.replace('<div id="root" class="max-w-full"></div>', `<div id="root" class="max-w-full">${content}</div>`);
   const title = "Abogado Familia Manizales | Divorcios y Custodia";
   const desc = "Abogado de familia en Manizales especialista en divorcios, custodia de hijos, cuota alimentaria y sucesiones. Consulta con Alexandra Vásquez hoy.";
